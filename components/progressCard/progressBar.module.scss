@@ -1,0 +1,37 @@
+.progress__bar__wrapper {
+  padding-top: 3rem;
+  padding-left: 4.6rem;
+  padding-right: 4.6rem;
+}
+
+.progress__bar__text__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress__bar__text {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.progress__bar__container {
+  margin-top: 1.6rem;
+}
+
+.progress__bar {
+  width: 100%;
+  height: 1.8rem;
+  background: rgba($color: #707070, $alpha: 0.3);
+  border-radius: 0.4rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress__bar__inner {
+  width: 80%;
+  height: 1.8rem;
+  position: absolute;
+  background: linear-gradient(to right, #655744, #E0C195);
+  border-radius: 0.4rem;
+}

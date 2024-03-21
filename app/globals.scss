@@ -1,0 +1,70 @@
+@import './reset.scss';
+
+:root {
+  --white: #fff;
+  --black: #121212;
+  --brown: #E0C195;
+  --dark-brown: #958883;
+}
+
+// variables
+$font-vast-shadow: var(--font-vast-shadow);
+$font-rye: var(--font-rye);
+$white: #fff;
+$black: #121212;
+$brown: #E0C195;
+
+html {
+  font-size: calc(100vw / 1792px * 10px);
+}
+
+body {
+  font-family: $font-vast-shadow;
+  background-color: $black;
+  color: $white;
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-rye);
+}
+
+h2 {
+  font-size: 7rem;
+  line-height: 8.4rem;
+}
+
+a {
+  text-decoration: none;
+  color: $white;
+}
+
+p {
+  font-size: 2rem;
+  line-height: 3rem;
+  font-family: var(--font-vast-shadow);
+}
+
+button {
+  border: none;
+  outline: none;
+  background: none;
+  color: $white;
+  font-family: $font-rye;
+  cursor: pointer;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inline__light__text {
+  color: var(--brown);
+}

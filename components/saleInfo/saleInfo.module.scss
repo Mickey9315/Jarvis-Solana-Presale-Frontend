@@ -1,0 +1,23 @@
+.sale__info {
+  position: relative;
+  width: 60.4rem;
+  height: 12rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 9.6rem;
+  padding-right: 2.8rem;
+
+  p {
+    color: var(--black);
+  }
+}
+
+.sale__info__bg__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}

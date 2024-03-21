@@ -1,0 +1,49 @@
+.progress__meter__outer__wrapper {
+  background: linear-gradient(to bottom, rgba(108, 82, 67, 1), rgba(108, 82, 67, 0));
+  border-radius: 1rem;
+  padding: 0.3rem;
+  margin-right: 1.7rem;
+}
+
+.progress__meter {
+  background: #0e0e0e;
+  border-radius: 0.7rem;
+  width: 97.7rem;
+}
+
+.progress__total__wrapper {
+  padding: 4.2rem 4.6rem;
+  border-bottom: 0.15rem solid rgba($color: #515151, $alpha: 0.5);
+}
+
+.progress__total__title {
+  color: var(--dark-brown);
+}
+
+
+.progress__total__sol {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.6rem;
+  margin-top: 2.1rem;
+}
+
+.progress__total__logo__image {
+  width: 4.9rem;
+  height: 4.9rem;
+}
+
+.progress__total__amount {
+  font-size: 4rem;
+  line-height: 3rem;
+  color: var(--brown);
+}
+
+.progress__card__connect__button {
+  padding: 1.4rem 10rem;
+  background: #3E3027;
+  margin-left: 4.6rem;
+  margin-top: 3.4rem;
+  margin-bottom: 7.6rem;
+}

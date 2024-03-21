@@ -1,0 +1,38 @@
+.nav {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+
+  .nav__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 144.5rem;
+    margin: 0 auto;
+    padding-top: 2.3rem;
+  }
+
+  .nav__logo {
+    width: 12.5rem;
+    height: 12.5rem;
+  }
+
+  .nav__x__logo {
+    width: 2.4rem;
+    height: 2.5rem;
+  }
+
+  .nav__links__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .nav__connect__button {
+    font-size: 2rem;
+    line-height: 1;
+  }
+}
