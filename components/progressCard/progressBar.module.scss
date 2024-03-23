@@ -2,6 +2,12 @@
   padding-top: 3rem;
   padding-left: 4.6rem;
   padding-right: 4.6rem;
+
+  @media screen and (max-width: 768px) {
+    padding-left: 2.2rem;
+    padding-right: 2.2rem;
+    padding-top: 1.7rem;
+  }
 }
 
 .progress__bar__text__wrapper {
@@ -13,6 +19,10 @@
 .progress__bar__text {
   font-size: 2.2rem;
   line-height: 1;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
 }
 
 .progress__bar__container {

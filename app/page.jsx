@@ -34,6 +34,11 @@ function RoundSection() {
         alt="background image"
       />
       <div className={classes.home__round__section__content__wrapper}>
+        <Image
+          className={`${classes.round__section__sale__image} ${classes.mobile}`}
+          src={roundImage}
+          alt="game enviroment image"
+        />
         <h2 className={classes.home__round__heading}>$JUDGE</h2>
         <h2>Private Sale Round</h2>
         <div className={classes.round__section__sale__wrapper}>

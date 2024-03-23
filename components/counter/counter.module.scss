@@ -4,6 +4,11 @@
   width: 46.4rem;
   height: 42.5rem;
   border-radius: 1rem;
+
+  @media screen and (max-width: 768px) {
+    width: 33rem;
+    height: 23rem;
+  }
 }
 
 .counter__wrapper {
@@ -21,11 +26,19 @@
   p {
     text-align: center;
     line-height: 1;
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.1rem;
+    }
   }
 
   .counter__title {
     color: #958883;
     margin-bottom: 0.5rem;
+
+    @media screen and (max-width: 768px) {
+      margin-bottom: 1rem;
+    }
   }
 }
 
@@ -38,6 +51,10 @@
   border: 0.1rem solid #6B5242;
   border-radius: 0.3rem;
   padding: 1.4rem;
+
+  @media screen and (max-width: 768px) {
+    padding: 1rem;
+  }
 }
 
 .counter__time__wrapper {
@@ -51,11 +68,19 @@
     font-size: 1.3rem;
     line-height: 1rem;
     color: #958883;
+
+    @media screen and (max-width: 768px) {
+      font-size: 0.9rem;
+    }
   }
 
   .counter__data {
     font-size: 3.5rem;
     line-height: 3rem;
     box-shadow: 0 -1 5 #fff;
+
+    @media screen and (max-width: 768px) {
+      font-size: 2.5rem;
+    }
   }
 }

@@ -16,6 +16,14 @@ $brown: #E0C195;
 
 html {
   font-size: calc(100vw / 1792px * 10px);
+
+  @media screen and (max-width: 1540px) and (min-width: 980px) {
+    font-size: calc(100vw / 1540px * 10px);
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: calc(100vw / 375px * 10px);
+  }
 }
 
 body {
@@ -35,6 +43,11 @@ h4 {
 h2 {
   font-size: 7rem;
   line-height: 8.4rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 3rem;
+    line-height: 4.2rem;
+  }
 }
 
 a {
@@ -46,6 +59,11 @@ p {
   font-size: 2rem;
   line-height: 3rem;
   font-family: var(--font-vast-shadow);
+
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+    line-height: 2rem;
+  }
 }
 
 button {
