@@ -3,7 +3,7 @@ import Link from "next/link";
 import classes from "./navigation.module.scss";
 
 // components
-import ConnectButton from "../connectButton/connectButton";
+import ConnectButton from "../button/connectButton";
 
 // image
 import logo from "@/assets/logo.png";
@@ -33,7 +33,9 @@ export default function Navigation() {
               alt="X link"
             />
           </a>
-          <ConnectButton className={classes.nav__connect__button} />
+          <ConnectButton className={classes.nav__connect__button}>
+            CONNECT
+          </ConnectButton>
         </div>
       </div>
     </nav>

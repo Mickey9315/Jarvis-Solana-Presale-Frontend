@@ -7,6 +7,12 @@
   --dark-brown: #958883;
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 // variables
 $font-vast-shadow: var(--font-vast-shadow);
 $font-rye: var(--font-rye);
@@ -83,6 +89,45 @@ img {
   object-fit: cover;
 }
 
+dialog {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  margin: auto;
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+dialog[open] {
+  animation: fadein 0.7s ease forwards;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .inline__light__text {
   color: var(--brown);
+}
+
+.button {
+  padding-top: 1.7rem;
+  padding-bottom: 1.7rem;
+  width: 100%;
+  background: #3E3027;
+  border: 0.2rem solid #3E3027;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: none;
+    border: 0.2rem solid var(--white);
+  }
 }

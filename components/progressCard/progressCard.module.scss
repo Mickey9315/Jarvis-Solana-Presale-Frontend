@@ -76,6 +76,14 @@
   margin-left: 4.6rem;
   margin-top: 3.4rem;
   margin-bottom: 7.6rem;
+  border: 0.2rem solid #3E3027;
+  transition: all 0.3s ease;
+
+
+  &:hover {
+    background: none;
+    border: 0.2rem solid var(--white);
+  }
 
   @media screen and (max-width: 768px) {
     padding: 1.4rem 5rem;

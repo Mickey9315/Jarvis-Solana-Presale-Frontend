@@ -5,6 +5,7 @@ import classes from "./page.module.scss";
 import SaleInfo from "@/components/saleInfo/saleInfo";
 import Counter from "@/components/counter/counter";
 import ProgressCard from "@/components/progressCard/progressCard";
+import ContributePopup from "@/components/popup/contributePopup";
 
 // images
 import heroImage from "@/assets/sale-hero-image.png";
