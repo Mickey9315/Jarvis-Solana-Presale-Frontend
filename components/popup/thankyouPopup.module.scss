@@ -1,0 +1,76 @@
+.thank__you__popup {
+  padding: 4.5rem 5.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 0.3rem solid #6C5243;
+  background: rgba($color: #0E0E0E9C, $alpha: 0.6);
+  backdrop-filter: blur(1rem);
+  padding: 9rem 6.5rem;
+  color: var(--white);
+  position: fixed;
+  border-radius: 1rem;
+
+  @media screen and (max-width: 768px) {
+    width: 32.8rem;
+    padding: 3rem 2.2rem;
+  }
+}
+
+.thankyou__logo {
+  width: 15.4rem;
+  height: 15.2rem;
+  margin-bottom: 4.5rem;
+
+  @media screen and (max-width: 768px) {
+    width: 7rem;
+    height: 7rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.popup__form {
+  width: 100%;
+}
+
+.thankyou__close__button {
+  width: 100%;
+}
+
+.thankyou__text,
+.thankyou__text__white {
+  font-size: 2.8rem;
+  text-transform: uppercase;
+  color: var(--brown);
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    text-align: center;
+  }
+}
+
+.thankyou__text__white {
+  color: var(--white);
+  margin-bottom: 6.7rem;
+
+  @media screen and (max-width: 768px) {
+    margin-bottom: 3rem;
+  }
+}
+
+.thankyou__divider {
+  height: 0.15rem;
+  width: 100%;
+  background: rgb(128, 148, 125);
+  background: -moz-linear-gradient(90deg, rgba(128, 148, 125, 0) 0%, rgba(108, 82, 67, 1) 53%, rgba(224, 220, 210, 0) 100%);
+  background: -webkit-linear-gradient(90deg, rgba(128, 148, 125, 0) 0%, rgba(108, 82, 67, 1) 53%, rgba(224, 220, 210, 0) 100%);
+  background: linear-gradient(90deg, rgba(128, 148, 125, 0) 0%, rgba(108, 82, 67, 1) 53%, rgba(224, 220, 210, 0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#80947d", endColorstr="#e0dcd2", GradientType=1);
+  margin: 5rem 0rem;
+
+  @media screen and (max-width: 768px) {
+    margin: 2.3rem 0rem;
+  }
+}
