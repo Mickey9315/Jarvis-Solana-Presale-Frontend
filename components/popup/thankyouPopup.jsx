@@ -6,7 +6,6 @@ import { forwardRef } from "react";
 import logo from "@/assets/logo.png";
 
 const ThankyouPopup = forwardRef(function ThankyouPopup(props, ref) {
-  console.log("thankyou");
   return (
     <dialog id="dialog2" ref={ref} className={classes.thank__you__popup}>
       <Image

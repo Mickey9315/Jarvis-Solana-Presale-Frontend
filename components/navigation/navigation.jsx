@@ -13,9 +13,6 @@ export default function Navigation() {
   return (
     <nav className={classes.nav}>
       <div className={classes.nav__container}>
-        <div className={classes.menu__button__wrapper}>
-          <button className={classes.menu__text}>MENU</button>
-        </div>
         <Link href="/">
           <Image
             className={classes.nav__logo}

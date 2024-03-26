@@ -52,7 +52,12 @@ function RoundSection() {
             <SaleInfo leftText="Hardcap" rightText="1000 SOL" />
             <SaleInfo leftText="Fixed Price" rightText="1 SOL= 10,000 $JUDGE" />
             <SaleInfo leftText="Max Contribution" rightText="50 SOL" />
-            <SaleInfo leftText="Min Contribution" rightText="5 SOL" />
+            <SaleInfo
+              leftText="Purchased tokens subject to vesting 
+schedule - 25% at DEX listing, 75% 
+6 month stream."
+              rightText=""
+            />
             <p className={classes.sale__info__para}>
               Claiming of <span className="inline__light__text">$JUDGE</span>{" "}
               tokens will be available after completion of the public sale and

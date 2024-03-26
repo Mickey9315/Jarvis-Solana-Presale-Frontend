@@ -16,8 +16,19 @@ const vastShadow = localFont({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://judgement.world"),
   title: "Judgement",
-  description: "Judgement NFT",
+  description: "Welcome to Crypto Hollow.",
+
+  opengraph: {
+    title: "Judgement",
+    description: "Welcome to Crypto Hollow.",
+  },
+
+  twitter: {
+    title: "Judgement",
+    description: "Welcome to Crypto Hollow.",
+  },
 };
 
 export default function RootLayout({ children }) {
