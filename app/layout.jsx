@@ -1,9 +1,13 @@
 import localFont from "next/font/local";
 import "./globals.scss";
+// import "solana/wallet-adapter-react-ui/styles.css";
+// import "@solana/wallet-adapter-react-ui/styles.css";
 
 // components
 import Navigation from "@/components/navigation/navigation";
 import Footer from "@/components/footer/footer";
+import { Toaster } from "react-hot-toast";
+import LayoutWrapper from './LayoutWrapper';
 
 const rye = localFont({
   src: "../assets/fonts/Rye-Regular.woff2",
@@ -31,14 +35,19 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}){
   return (
-    <html lang="en">
-      <body className={`${vastShadow.variable} ${rye.variable}`}>
-        <Navigation />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <LayoutWrapper >
+      <html lang="en">
+        <body className={`${vastShadow.variable} ${rye.variable}`}>
+          <Navigation />
+          {children}
+          <Footer />
+          <Toaster />
+        </body>
+      </html>
+    </LayoutWrapper>
   );
 }
