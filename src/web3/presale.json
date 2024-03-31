@@ -1,0 +1,422 @@
+{
+  "version": "0.0.0",
+  "name": "presale",
+  "instructions": [
+    {
+      "name": "initPool",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "withdrawer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rand",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "minSol",
+          "type": "u64"
+        },
+        {
+          "name": "maxSol",
+          "type": "u64"
+        },
+        {
+          "name": "softcap",
+          "type": "u64"
+        },
+        {
+          "name": "hardcap",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initContributeInfo",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "data",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "transferAuthority",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newOwner",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setWithdrawer",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "newWithdrawer",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "setPause",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pause",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "setMinsol",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "minsol",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setMaxsol",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "maxsol",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setSoftcap",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "softcap",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "setHardcap",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "hardcap",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "depositSol",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "contributeInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claimSol",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "poolAddress",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Pool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "rand",
+            "type": "publicKey"
+          },
+          {
+            "name": "withdrawer",
+            "type": "publicKey"
+          },
+          {
+            "name": "minSol",
+            "type": "u64"
+          },
+          {
+            "name": "maxSol",
+            "type": "u64"
+          },
+          {
+            "name": "softcap",
+            "type": "u64"
+          },
+          {
+            "name": "hardcap",
+            "type": "u64"
+          },
+          {
+            "name": "raised",
+            "type": "u64"
+          },
+          {
+            "name": "withdrawAmount",
+            "type": "u64"
+          },
+          {
+            "name": "pause",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ContributeInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pool",
+            "type": "publicKey"
+          },
+          {
+            "name": "contributer",
+            "type": "publicKey"
+          },
+          {
+            "name": "contributeStart",
+            "type": "u64"
+          },
+          {
+            "name": "contributeLast",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "InvalidPoolOwner",
+      "msg": "Invalid owner"
+    },
+    {
+      "code": 301,
+      "name": "InsufficentFunds",
+      "msg": "Insufficent Funds"
+    },
+    {
+      "code": 302,
+      "name": "OverflowContibute",
+      "msg": "Overflow Contribute Amount"
+    },
+    {
+      "code": 303,
+      "name": "HardcapReached",
+      "msg": "Hardcap Reached"
+    },
+    {
+      "code": 304,
+      "name": "InPauseState",
+      "msg": "Presale is in Pause State"
+    },
+    {
+      "code": 305,
+      "name": "SolTransferFailed",
+      "msg": "sol transfer failed"
+    }
+  ]
+}

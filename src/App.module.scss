@@ -1,0 +1,143 @@
+// -----------------
+// HERO SECTION
+// -----------------
+.home__hero__section {
+  height: 100vh;
+  position: relative;
+}
+
+.home__hero__image__wrapper {
+  width: 100%;
+  height: 100vh;
+}
+
+.home__hero__heading {
+  font-size: 10rem;
+  line-height: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-wrap: nowrap;
+
+  @media screen and (max-width: 768px) {
+    font-size: 3rem;
+    line-height: 4.2rem;
+    margin-top: -20rem;
+  }
+}
+
+.home__round__heading__2 {
+  @media screen and (max-width: 768px) {
+    font-size: 2.5rem;
+    line-height: 4.2rem;
+  }
+}
+
+// -----------------
+// ROUND SECTION
+// -----------------
+
+.home__round__section {
+  position: relative;
+  padding-top: 6.7rem;
+  padding-bottom: 13.7rem;
+}
+
+.round__section__sale__wrapper {
+  margin-top: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 19.3rem;
+}
+
+.round__section__sale__image {
+  width: 51.1rem;
+  height: 66.4rem;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+
+  &.mobile {
+    display: none;
+
+    @media screen and (max-width: 768px) {
+      display: block;
+      width: 26.5rem;
+      height: 35rem;
+      margin-bottom: 6rem;
+    }
+  }
+}
+
+.round__section__background__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.home__round__heading {
+  color: var(--brown);
+}
+
+.home__round__section__content__wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+
+  @media screen and (max-width: 768px) {
+    padding: 0 2rem;
+  }
+}
+
+.round__section__sale__info__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.4rem;
+  flex-direction: column;
+}
+
+.sale__info__para {
+  max-width: 70rem;
+  margin-left: 4rem;
+  margin-top: 2.7rem;
+
+  @media screen and (max-width: 768px) {
+    margin-left: 0;
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+}
+
+// -----------------
+// COUNTER SECTION
+// -----------------
+.home__counter__section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 5rem;
+  padding-bottom: 16.5rem;
+  position: relative;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.counter__section__background__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
