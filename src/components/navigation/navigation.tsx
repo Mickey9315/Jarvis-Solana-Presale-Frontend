@@ -1,3 +1,4 @@
+import { useContext, useEffect } from "react";
 import classes from "./navigation.module.scss";
 // import ConnectButton from "../button/connectButton";
 import logo from "../../assets/logo.png";
@@ -5,7 +6,15 @@ import xLogo from "../../assets/x-logo.svg";
 
 import WalletConnect from "../Wallet/connect";
 
+import { PersonalInfoContext } from "../../web3/PersonalInfo";
+
 export default function Navigation() {
+
+  const {
+    poolState,
+    contributeInfo,
+    getPoolStateData
+  } = useContext(PersonalInfoContext);
 
   // const { connected } = useWallet();
   // const { connected, select, wallets, wallet, publicKey, disconnect } = useWallet();
@@ -23,6 +32,11 @@ export default function Navigation() {
   //     }
   //   }
   // }, [wallet])
+
+  useEffect(() => {
+    getPoolStateData();
+  }, [])
+
 
   return (
     <nav className={classes.nav}>

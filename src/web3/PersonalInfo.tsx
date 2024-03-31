@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 
 import { sendTransactions, awaitTransactionSignatureConfirmation } from "./utils";
 
+import MyWallet from "./MyWallet";
 // import program_idl from "./presale.json";
 import program_idl from "./presale.json";
 
@@ -61,6 +62,7 @@ export interface PersonalInfoInterface {
   poolState: poolStateInterface,
   contributeInfo: contributeInfoInterface,
   depositSol: Function;
+  getPoolStateData: Function;
 }
 
 export const PersonalInfoContext = React.createContext<PersonalInfoInterface>({
@@ -85,6 +87,7 @@ export const PersonalInfoContext = React.createContext<PersonalInfoInterface>({
   depositSol: async (amount: number) => {
     return 0;
   },
+  getPoolStateData: async() => {},
 });
 
 export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
@@ -127,39 +130,40 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
 
   const getPoolStateData = async () => {
     try {
-      if (connected) {
-        const wallet = new anchor.Wallet(Keypair.generate());
-        const provider = new anchor.AnchorProvider(
-          conn,
-          wallet as any,
-          confirmOption
-        );
-        const program = new anchor.Program(program_idl as unknown as anchor.Idl, programId, provider);
-        const poolData = await program.account.pool.fetch(poolAddress);
+      console.log("connected");
+      const wallet = new MyWallet(Keypair.generate());
+      const provider = new anchor.AnchorProvider(
+        conn,
+        wallet as any,
+        confirmOption
+      );
+      const program = new anchor.Program(program_idl as unknown as anchor.Idl, programId, provider);
+      const poolData = await program.account.pool.fetch(poolAddress);
 
-        setPoolState({
-          owner: poolData.owner.toBase58(),
-          withdrawer: poolData.withdrawer.toBase58(),
-          minsol: poolData.minSol.toNumber(),
-          maxsol: poolData.maxSol.toNumber(),
-          softcap: poolData.hardcap.toNumber(),
-          hardcap: poolData.softcap.toNumber(),
-          raised: poolData.raised.toNumber(),
-          withdrawAmount: poolData.withdrawAmount.toNumber(),
-          pause: poolData.pause
-        });
-        return {
-          owner: poolData.owner.toBase58(),
-          withdrawer: poolData.withdrawer.toBase58(),
-          minsol: poolData.minSol.toNumber(),
-          maxsol: poolData.maxSol.toNumber(),
-          softcap: poolData.hardcap.toNumber(),
-          hardcap: poolData.softcap.toNumber(),
-          raised: poolData.raised.toNumber(),
-          withdrawAmount: poolData.withdrawAmount.toNumber(),
-          pause: poolData.pause
-        };
-      }
+      console.log(poolData);
+
+      setPoolState({
+        owner: poolData.owner.toBase58(),
+        withdrawer: poolData.withdrawer.toBase58(),
+        minsol: poolData.minSol.toNumber(),
+        maxsol: poolData.maxSol.toNumber(),
+        softcap: poolData.hardcap.toNumber(),
+        hardcap: poolData.softcap.toNumber(),
+        raised: poolData.raised.toNumber(),
+        withdrawAmount: poolData.withdrawAmount.toNumber(),
+        pause: poolData.pause
+      });
+      return {
+        owner: poolData.owner.toBase58(),
+        withdrawer: poolData.withdrawer.toBase58(),
+        minsol: poolData.minSol.toNumber(),
+        maxsol: poolData.maxSol.toNumber(),
+        softcap: poolData.hardcap.toNumber(),
+        hardcap: poolData.softcap.toNumber(),
+        raised: poolData.raised.toNumber(),
+        withdrawAmount: poolData.withdrawAmount.toNumber(),
+        pause: poolData.pause
+      };
     } catch (err) {
       console.log(err);
       return {};
@@ -256,7 +260,8 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
       value={{
         poolState,
         contributeInfo,
-        depositSol
+        depositSol,
+        getPoolStateData
       }}
     >
       {children}
