@@ -1,5 +1,5 @@
 import classes from "./App.module.scss";
-import { useMemo } from "react";
+import { useMemo, useContext } from "react";
 
 import {
   ConnectionProvider,
@@ -28,6 +28,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { PersonalInfoContextProvider } from "./web3/PersonalInfo";
+import { PersonalInfoContext } from "./web3/PersonalInfo";
 
 // components
 import SaleInfo from "./components/saleInfo/saleInfo";
@@ -56,6 +57,7 @@ function HeroSection() {
 
 // home page round sale section
 function RoundSection() {
+  const { poolState } = useContext(PersonalInfoContext);
   return (
     <section className={classes.home__round__section} id="round">
       <img
@@ -78,9 +80,9 @@ function RoundSection() {
             alt="game enviroment image"
           />
           <div className={classes.round__section__sale__info__wrapper}>
-            <SaleInfo leftText="Hardcap" rightText="1000 SOL" />
+            <SaleInfo leftText="Hardcap" rightText={poolState.hardcap + " SOL"} />
             <SaleInfo leftText="Fixed Price" rightText="1 SOL= 10,000 $JUDGE" />
-            <SaleInfo leftText="Max Contribution" rightText="50 SOL" />
+            <SaleInfo leftText="Max Contribution" rightText={poolState.maxsol + " SOL"} />
             <SaleInfo
               leftText="Purchased tokens subject to vesting 
 schedule - 25% at DEX listing, 75% 

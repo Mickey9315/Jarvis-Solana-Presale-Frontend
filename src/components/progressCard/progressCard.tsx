@@ -1,7 +1,6 @@
-import { useRef } from "react";
-
+import { useRef, useContext } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+// import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 import { toast } from "react-toastify";
 
@@ -13,12 +12,15 @@ import ConnectButton from "../button/connectButton";
 import ProgressBar from "./progressBar";
 import ContributePopup from "../popup/contributePopup";
 
+import { PersonalInfoContext } from "../../web3/PersonalInfo";
+
 // import WalletConnect from "../Wallet/connect";
 
 export default function ProgressCard(): JSX.Element {
+  const { poolState } = useContext(PersonalInfoContext);
   const { connected } = useWallet();
   // const { connected, select, wallets, wallet, publicKey, disconnect } = useWallet();
-  const { setVisible } = useWalletModal();
+  // const { setVisible } = useWalletModal();
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -53,7 +55,7 @@ export default function ProgressCard(): JSX.Element {
                 src={logoImage}
                 alt="logo"
               />
-              <span className={classes.progress__total__amount}>800 SOL</span>
+              <span className={classes.progress__total__amount}>{poolState.raised} SOL</span>
             </div>
           </div>
           <ProgressBar />

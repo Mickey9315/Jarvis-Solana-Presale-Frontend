@@ -1,20 +1,8 @@
-import React, {
-  useMemo,
-  useState,
-  useEffect,
-  useCallback,
-  PropsWithChildren,
-} from "react";
 import {
   PublicKey,
-  Connection,
-  SystemProgram,
   Keypair,
-  Transaction,
-  LAMPORTS_PER_SOL,
-  ConfirmOptions,
+  Transaction
 } from "@solana/web3.js";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {Wallet} from "@project-serum/anchor";
 
 export default class MyWallet implements Wallet {

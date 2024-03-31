@@ -93,7 +93,7 @@ export const PersonalInfoContext = React.createContext<PersonalInfoInterface>({
 export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const { connection } = useConnection();
+  // const { connection } = useConnection();
   const { connected, sendTransaction, wallet, publicKey } = useWallet();
   const [poolState, setPoolState] = useState<poolStateInterface>({
     owner: "",
@@ -128,9 +128,13 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
   //   return [];
   // }, [connected, conn, program_idl, programId, wallet]);
 
+  useEffect(() => {
+    getPoolStateData();
+  }, [])
+
   const getPoolStateData = async () => {
     try {
-      console.log("connected");
+      // console.log("connected");
       const wallet = new MyWallet(Keypair.generate());
       const provider = new anchor.AnchorProvider(
         conn,
@@ -140,28 +144,28 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
       const program = new anchor.Program(program_idl as unknown as anchor.Idl, programId, provider);
       const poolData = await program.account.pool.fetch(poolAddress);
 
-      console.log(poolData);
+      // console.log(poolData);
 
       setPoolState({
         owner: poolData.owner.toBase58(),
         withdrawer: poolData.withdrawer.toBase58(),
-        minsol: poolData.minSol.toNumber(),
-        maxsol: poolData.maxSol.toNumber(),
-        softcap: poolData.hardcap.toNumber(),
-        hardcap: poolData.softcap.toNumber(),
-        raised: poolData.raised.toNumber(),
-        withdrawAmount: poolData.withdrawAmount.toNumber(),
+        minsol: poolData.minSol.toNumber() / LAMPORTS_PER_SOL,
+        maxsol: poolData.maxSol.toNumber() / LAMPORTS_PER_SOL,
+        softcap: poolData.softcap.toNumber() / LAMPORTS_PER_SOL,
+        hardcap: poolData.hardcap.toNumber() / LAMPORTS_PER_SOL,
+        raised: poolData.raised.toNumber() / LAMPORTS_PER_SOL,
+        withdrawAmount: poolData.withdrawAmount.toNumber() / LAMPORTS_PER_SOL,
         pause: poolData.pause
       });
       return {
         owner: poolData.owner.toBase58(),
         withdrawer: poolData.withdrawer.toBase58(),
-        minsol: poolData.minSol.toNumber(),
-        maxsol: poolData.maxSol.toNumber(),
-        softcap: poolData.hardcap.toNumber(),
-        hardcap: poolData.softcap.toNumber(),
-        raised: poolData.raised.toNumber(),
-        withdrawAmount: poolData.withdrawAmount.toNumber(),
+        minsol: poolData.minSol.toNumber() / LAMPORTS_PER_SOL,
+        maxsol: poolData.maxSol.toNumber() / LAMPORTS_PER_SOL,
+        softcap: poolData.hardcap.toNumber() / LAMPORTS_PER_SOL,
+        hardcap: poolData.softcap.toNumber() / LAMPORTS_PER_SOL,
+        raised: poolData.raised.toNumber() / LAMPORTS_PER_SOL,
+        withdrawAmount: poolData.withdrawAmount.toNumber() / LAMPORTS_PER_SOL,
         pause: poolData.pause
       };
     } catch (err) {
