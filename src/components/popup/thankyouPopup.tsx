@@ -1,15 +1,24 @@
-import { forwardRef, ForwardedRef } from "react";
+import { forwardRef } from "react";
 
 import classes from "./thankyouPopup.module.scss";
 import logo from "../../assets/logo.png";
 
 // import { PersonalInfoContext } from "../../web3/PersonalInfo";
 
-const ThankyouPopup = forwardRef<HTMLDialogElement>(function ThankyouPopup(
+export interface ThankyouPopupProps {
+  // ref?: RefObject<HTMLDialogElement>,
+  closeThankyouPopupChild: () => void,
+}
+
+const ThankyouPopup = forwardRef<HTMLDialogElement, ThankyouPopupProps>(function ThankyouPopup(
   props,
-  ref: ForwardedRef<HTMLDialogElement>
+  ref
 ) {
   // const { depositSol } = useContext(PersonalInfoContext);
+
+  const closeButtonClick = () => {
+    props.closeThankyouPopupChild();
+  }
 
   return (
     <dialog id="dialog2" ref={ref} className={classes.thank__you__popup}>
@@ -22,7 +31,7 @@ const ThankyouPopup = forwardRef<HTMLDialogElement>(function ThankyouPopup(
         Get ready for Jury service soon!
       </p>
       <form method="dialog" className={classes.popup__form}>
-        <button className={`${classes.thankyou__close__button} button`}>
+        <button onClick={closeButtonClick} className={`${classes.thankyou__close__button} button`}>
           CLOSE
         </button>
       </form>

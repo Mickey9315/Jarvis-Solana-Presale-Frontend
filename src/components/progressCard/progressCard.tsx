@@ -1,4 +1,4 @@
-import { useRef, useContext } from "react";
+import { useRef, RefObject, useContext } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 // import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
@@ -24,6 +24,12 @@ export default function ProgressCard(): JSX.Element {
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
+  const closeContributePopupParent = () => {
+    console.log("Close Dialog");
+    
+    dialogRef.current?.close();
+  }
+
   const handleClick = async () => {
     if(connected) {
       await getUserInfo();
@@ -38,14 +44,14 @@ export default function ProgressCard(): JSX.Element {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: "dark",
       });
     }
   }
 
   return (
     <>
-      <ContributePopup ref={dialogRef} />
+      <ContributePopup ref={dialogRef} closeContributePopupChild={closeContributePopupParent} />
       <div className={classes.progress__meter__outer__wrapper}>
         <div className={classes.progress__meter}>
           <div className={classes.progress__total__wrapper}>

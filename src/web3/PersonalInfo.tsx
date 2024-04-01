@@ -137,7 +137,7 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
 
   const getUserBalance = async (userkey: PublicKey) => {
     let balance = await conn.getBalance(userkey);
-    console.log("user balance", balance / LAMPORTS_PER_SOL);
+    // console.log("user balance", balance / LAMPORTS_PER_SOL);
     setUserBalance(balance / LAMPORTS_PER_SOL);
   }
 
@@ -153,7 +153,7 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
       const program = new anchor.Program(program_idl as unknown as anchor.Idl, programId, provider);
       const poolData = await program.account.pool.fetch(poolAddress);
 
-      console.log(poolData);
+      // console.log(poolData);
 
       setPoolState({
         owner: poolData.owner.toBase58(),
@@ -211,14 +211,14 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
         const [contributeState, bump] = await getContributeInfoAccount(wallet?.adapter.publicKey, poolAddress);
         if ((await conn.getAccountInfo(contributeState)) != null) {
           const contributeInfoData = await getContributeInfo(conn, contributeState);
-          console.log("contributeinfo", contributeInfoData);
-          console.log({
-            pool: contributeInfoData.pool.toBase58(),
-            contributer: contributeInfoData.contributer.toBase58(),
-            contributeStart: contributeInfoData.contributeStart.toNumber(),
-            contributeLast: contributeInfoData.contributeLast.toNumber(),
-            amount: contributeInfoData.amount.toNumber(),
-          })
+          // console.log("contributeinfo", contributeInfoData);
+          // console.log({
+          //   pool: contributeInfoData.pool.toBase58(),
+          //   contributer: contributeInfoData.contributer.toBase58(),
+          //   contributeStart: contributeInfoData.contributeStart.toNumber(),
+          //   contributeLast: contributeInfoData.contributeLast.toNumber(),
+          //   amount: contributeInfoData.amount.toNumber(),
+          // })
           setContributeInfo({
             pool: contributeInfoData.pool.toBase58(),
             contributer: contributeInfoData.contributer.toBase58(),
@@ -231,6 +231,11 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
     } catch (error) {
       console.log(error);
     }    
+  }
+
+  const getErrorMessage = (code: number) => {
+    const rlt = program_idl.errors.find((ele) => ele.code == code);
+    return rlt;
   }
 
   const depositSol = async (amount: number) => {
@@ -316,24 +321,30 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
 
         // console.log("status", status);
         // await getAllInfo();
-        console.log(poolState);
+        // console.log(poolState);
         setPoolState({
           ...poolState,
           raised: poolState.raised + amount
         })
 
-        console.log("deposit success");
+        // console.log("deposit success");
         return {
           status: true,
           error: null,
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       // setDepositingFlag(true);
-      console.log(err);
+      // console.log("transaction error", err.InstructionError[1].Custom);
+      // const temp = getErrorMessage(err.InstructionError[1].Custom);
+      // console.log(temp);
+      // const error = getErrorMessage(err.InstructionError[1].Custom);
+      // if(!error) {
+
+      // }
       return {
         state: false,
-        error: err
+        error: getErrorMessage(err.InstructionError[1].Custom)
       }
     }
   }

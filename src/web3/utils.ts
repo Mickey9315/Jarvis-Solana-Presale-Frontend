@@ -190,12 +190,12 @@ export const sendTransactions = async (
   const pendingTxns: Promise<{ txid: string; slot: number }>[] = [];
 
   let breakEarlyObject = { breakEarly: false, i: 0 };
-  console.log(
-    'Signed txns length',
-    signedTxns.length,
-    'vs handed in length',
-    instructionSet.length,
-  );
+  // console.log(
+  //   'Signed txns length',
+  //   signedTxns.length,
+  //   'vs handed in length',
+  //   instructionSet.length,
+  // );
   for (let i = 0; i < signedTxns.length; i++) {
     const signedTxnPromise = sendSignedTransaction({
       connection,
@@ -387,7 +387,7 @@ export async function sendSignedTransaction({
     },
   );
 
-  console.log('Started awaiting confirmation for', txid);
+  // console.log('Started awaiting confirmation for', txid);
 
   let done = false;
   (async () => {
@@ -452,7 +452,7 @@ export async function sendSignedTransaction({
     done = true;
   }
 
-  console.log('Latency', txid, getUnixTs() - startTime);
+  // console.log('Latency', txid, getUnixTs() - startTime);
   return { txid, slot };
 }
 
@@ -522,22 +522,22 @@ export const awaitTransactionSignatureConfirmation = async (
           // console.log("<<<<<<<<<<<<<<status>>>>>>>>>>>>>", status)
           if (!done) {
             if (!status) {
-              console.log('REST null result for', txid, status);
+              // console.log('REST null result for', txid, status);
             } else if (status.err) {
-              console.log('REST error for', txid, status);
+              // console.log('REST error for', txid, status);
               done = true;
               reject(status.err);
             } else if (!status.confirmations) {
-              console.log('REST no confirmations for', txid, status);
+              // console.log('REST no confirmations for', txid, status);
             } else {
-              console.log('REST confirmation for', txid, status);
+              // console.log('REST confirmation for', txid, status);
               done = true;
               resolve(status);
             }
           }
         } catch (e) {
           if (!done) {
-            console.log('REST connection error: txid', txid, e);
+            // console.log('REST connection error: txid', txid, e);
           }
         }
       })();
