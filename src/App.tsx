@@ -125,6 +125,7 @@ export default function App() {
   const wallets = useMemo(
     () => [
       new SolanaMobileWalletAdapter({
+        cluster: WalletAdapterNetwork.Devnet,
         appIdentity: { name: "Solana Wallet Adapter App" },
         authorizationResultCache: createDefaultAuthorizationResultCache(),
       }),

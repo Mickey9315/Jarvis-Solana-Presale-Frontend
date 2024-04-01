@@ -131,8 +131,8 @@ export const sendTransactions = async (
   signersSet: Keypair[][],
   sequenceType: SequenceType = SequenceType.StopOnFailure,
   commitment: Commitment = 'singleGossip',
-  successCallback: (txid: string, ind: number) => void = (txid, ind) => { },
-  failCallback: (reason: string, ind: number) => boolean = (txid, ind) => false,
+  successCallback: (txid: string, ind: number) => void = () => { },
+  failCallback: (reason: string, ind: number) => boolean = () => false,
   block?: BlockhashAndFeeCalculator,
 ): Promise<{ number: number; txs: { txid: string; slot: number }[] }> => {
   if (!wallet.adapter?.publicKey) throw new WalletNotConnectedError();
@@ -189,7 +189,7 @@ export const sendTransactions = async (
   signedTxns = fullySignedTransactions.concat(signedTxns);
   const pendingTxns: Promise<{ txid: string; slot: number }>[] = [];
 
-  let breakEarlyObject = { breakEarly: false, i: 0 };
+  // let breakEarlyObject = { breakEarly: false, i: 0 };
   // console.log(
   //   'Signed txns length',
   //   signedTxns.length,
@@ -217,7 +217,7 @@ export const sendTransactions = async (
 
     if (sequenceType !== SequenceType.Parallel) {
       try {
-        await signedTxnPromise.then(({ txid, slot }) =>
+        await signedTxnPromise.then(({ txid }) =>
           successCallback(txid, i),
         );
         pendingTxns.push(signedTxnPromise);
@@ -495,7 +495,7 @@ export const awaitTransactionSignatureConfirmation = async (
     err: null,
   };
   // console.log("<<<<<<<<<<<<<<<<<<<<<<tx id>>>>>>>>>>>>>>>>>>>>>>", txid)
-  let subId = 0;
+  // let subId = 0;
   status = await new Promise(async (resolve, reject) => {
     // console.log("><<<<<<<<<timeout>>>>>>>>", timeout)
     setTimeout(() => {

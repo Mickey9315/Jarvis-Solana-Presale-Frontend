@@ -15,14 +15,14 @@ import {
 import { useWallet } from "@solana/wallet-adapter-react";
 import * as anchor from "@project-serum/anchor";
 
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 import { sendTransactions, awaitTransactionSignatureConfirmation } from "./utils";
 
 import MyWallet from "./MyWallet";
 // import program_idl from "./presale.json";
 import program_idl from "./presale.json";
-import { error } from "console";
+// import { error } from "console";
 
 const REACT_APP_SOLANA_HOST: any = import.meta.env.VITE_APP_SOLANA_RPC_HOST;
 // console.log(REACT_APP_SOLANA_HOST);
@@ -86,7 +86,7 @@ export const PersonalInfoContext = React.createContext<PersonalInfoInterface>({
     contributeLast: 0,
     amount: 0,
   },
-  depositSol: async (amount: number) => {},
+  depositSol: async () => {},
   getPoolStateData: async() => {},
   getUserInfo: async() => {},
 });
@@ -208,7 +208,7 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
   const getUserContributeInfo = async () => {
     try {
       if(wallet?.adapter.publicKey){
-        const [contributeState, bump] = await getContributeInfoAccount(wallet?.adapter.publicKey, poolAddress);
+        const [contributeState] = await getContributeInfoAccount(wallet?.adapter.publicKey, poolAddress);
         if ((await conn.getAccountInfo(contributeState)) != null) {
           const contributeInfoData = await getContributeInfo(conn, contributeState);
           // console.log("contributeinfo", contributeInfoData);
@@ -311,8 +311,7 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
 
         // console.log(txns);
 
-        let status: any = { err: true };
-        status = await awaitTransactionSignatureConfirmation(
+        let status: any = await awaitTransactionSignatureConfirmation(
           sendTxId,
           txTimeoutInMilliseconds,
           conn,
@@ -329,7 +328,7 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
 
         // console.log("deposit success");
         return {
-          status: true,
+          state: status,
           error: null,
         }
       }

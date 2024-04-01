@@ -1,4 +1,4 @@
-import { useRef, RefObject, useContext } from "react";
+import { useRef, useContext } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 // import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 

@@ -13,7 +13,12 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
+    "paths": {
+      "@solana/wallet-adapter-wallets": ["./node_modules/@solana/wallet-adapter-wallets/lib/types"],
+      "@solana-mobile/wallet-adapter-mobile": [
+        "./node_modules/@solana-mobile/wallet-adapter-mobile/lib/types"
+      ]
+    },
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

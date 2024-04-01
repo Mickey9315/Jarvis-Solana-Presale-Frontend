@@ -80,7 +80,7 @@ const ContributePopup = forwardRef<HTMLDialogElement, ContributePopupProps>(func
     
     const status = await depositSol(contributeSol);
     console.log(status);
-    if(status.status == true) {
+    if(status.state == true) {
       thankyouPopupRef.current?.showModal();
     } else {
       if(!status.error) {

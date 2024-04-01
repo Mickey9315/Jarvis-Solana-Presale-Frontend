@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import classes from "./navigation.module.scss";
 // import ConnectButton from "../button/connectButton";
 import logo from "../../assets/logo.png";
