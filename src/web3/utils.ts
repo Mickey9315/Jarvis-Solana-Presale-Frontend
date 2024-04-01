@@ -16,9 +16,6 @@ import {
 import * as anchor from "@project-serum/anchor";
 
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
-
-let conn = new Connection(import.meta.env.REACT_APP_SOLANA_RPC_HOST as string)
-
 interface BlockhashAndFeeCalculator {
   blockhash: Blockhash;
   feeCalculator: FeeCalculator;
@@ -186,7 +183,7 @@ export const sendTransactions = async (
     t => !t.signatures.find(sig => sig.publicKey.equals(wallet.adapter?.publicKey)),
   );
 
-  let signedTxns = await wallet.adapter?._wallet.signAllTransactions(partiallySignedTransactions);
+  let signedTxns = await wallet.adapter?.signAllTransactions(partiallySignedTransactions);
 
   // console.log("signed txns", signedTxns);
   signedTxns = fullySignedTransactions.concat(signedTxns);

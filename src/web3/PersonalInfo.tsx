@@ -1,8 +1,6 @@
 import React, {
-  useMemo,
   useState,
   useEffect,
-  useCallback,
   PropsWithChildren,
 } from "react";
 import {
@@ -10,11 +8,11 @@ import {
   Connection,
   SystemProgram,
   Keypair,
-  Transaction,
   LAMPORTS_PER_SOL,
   ConfirmOptions,
+  SYSVAR_CLOCK_PUBKEY
 } from "@solana/web3.js";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import * as anchor from "@project-serum/anchor";
 
 import { toast } from "react-toastify";
@@ -24,6 +22,7 @@ import { sendTransactions, awaitTransactionSignatureConfirmation } from "./utils
 import MyWallet from "./MyWallet";
 // import program_idl from "./presale.json";
 import program_idl from "./presale.json";
+import { error } from "console";
 
 const REACT_APP_SOLANA_HOST: any = import.meta.env.VITE_APP_SOLANA_RPC_HOST;
 // console.log(REACT_APP_SOLANA_HOST);
@@ -63,6 +62,7 @@ export interface PersonalInfoInterface {
   poolState: poolStateInterface,
   contributeInfo: contributeInfoInterface,
   depositSol: Function;
+  getUserInfo: Function,
   getPoolStateData: Function;
 }
 
@@ -86,17 +86,16 @@ export const PersonalInfoContext = React.createContext<PersonalInfoInterface>({
     contributeLast: 0,
     amount: 0,
   },
-  depositSol: async (amount: number) => {
-    return 0;
-  },
+  depositSol: async (amount: number) => {},
   getPoolStateData: async() => {},
+  getUserInfo: async() => {},
 });
 
 export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   // const { connection } = useConnection();
-  const { connected, sendTransaction, wallet, publicKey } = useWallet();
+  const { wallet } = useWallet();
   const [userBalance, setUserBalance] = useState<number>(0);
   const [poolState, setPoolState] = useState<poolStateInterface>({
     owner: "",
@@ -117,35 +116,28 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
     amount: 0,
   })
 
-  // const [program] = useMemo(() => {
-  //   if (connected) {
-  //     const provider = new anchor.AnchorProvider(
-  //       conn,
-  //       wallet as any,
-  //       confirmOption
-  //     );
-
-  //     const program = new anchor.Program(program_idl as unknown as anchor.Idl, programId, provider);
-  //     return [program];
-  //   }
-  //   return [];
-  // }, [connected, conn, program_idl, programId, wallet]);
-
   useEffect(() => {
     getPoolStateData();
   }, [])
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if(wallet?.adapter.publicKey) {
+  //     getUserInfo();
+  //   } else {
+  //     setUserBalance(0);
+  //   }
+  // }, [wallet?.adapter.publicKey])
+
+  const getUserInfo = async () => {
     if(wallet?.adapter.publicKey) {
-      getUserBalance(wallet.adapter.publicKey);
-    } else {
-      setUserBalance(0);
+      await getUserBalance(wallet.adapter.publicKey);
+      await getUserContributeInfo();
     }
-  }, [wallet?.adapter.publicKey])
+  }
 
   const getUserBalance = async (userkey: PublicKey) => {
     let balance = await conn.getBalance(userkey);
-    // console.log("user balance", balance / LAMPORTS_PER_SOL);
+    console.log("user balance", balance / LAMPORTS_PER_SOL);
     setUserBalance(balance / LAMPORTS_PER_SOL);
   }
 
@@ -161,7 +153,7 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
       const program = new anchor.Program(program_idl as unknown as anchor.Idl, programId, provider);
       const poolData = await program.account.pool.fetch(poolAddress);
 
-      // console.log(poolData);
+      console.log(poolData);
 
       setPoolState({
         owner: poolData.owner.toBase58(),
@@ -191,90 +183,160 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
     }
   };
 
-  const depositSol = () => {
-    
+  async function getContributeInfoAccount(owner : PublicKey, pool: PublicKey) {
+    // console.log(owner, pool, token);
+    return await PublicKey.findProgramAddress([owner.toBuffer(),pool.toBuffer()], programId)
   }
 
-  // const depositSol = useCallback(
-  //   async (amount: number) => {
-  //     if (wallet?.adapter.publicKey) {
-  //       const [state] = await PublicKey.findProgramAddress(
-  //         [wallet?.adapter.publicKey.toBuffer(), pool.toBuffer()],
-  //         programId
-  //       );
-  //       let stateData: any = {
-  //         owner: "",
-  //         pool: "",
-  //         amount: 0,
-  //         status: "default",
-  //         stateAddr: "",
-  //       };
-  //       if ((await conn.getAccountInfo(state)) != null) {
-  //         stateData = await getStateData();
-  //       }
-  //       // console.log("state data", stateData)
-  //       if (
-  //         stateData.amount === 0 &&
-  //         stateData.status === "default" &&
-  //         (await deposit(amount))
-  //       ) {
-  //         curSocket.emit(
-  //           "deposit_fund",
-  //           JSON.stringify({
-  //             wallet: wallet?.adapter.publicKey?.toBase58(),
-  //             amount: Number(amount) * LAMPORTS_PER_SOL,
-  //           })
-  //         );
-  //       } else if (stateData.amount && stateData.status === "deposited") {
-  //         toast.warn(`Deposit is pending!`, {
-  //           position: "bottom-left",
-  //           autoClose: 1500,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: true,
-  //           draggable: true,
-  //           progress: undefined,
-  //           theme: "dark",
-  //         });
-  //         curSocket.emit(
-  //           "deposit_fund",
-  //           JSON.stringify({
-  //             wallet: wallet?.adapter.publicKey?.toBase58(),
-  //             amount: Number(stateData.amount),
-  //           })
-  //         );
-  //       } else if (
-  //         stateData.amount &&
-  //         stateData.status === "withdraw required"
-  //       ) {
-  //         toast.warn(`Withdraw is pending!`, {
-  //           position: "bottom-left",
-  //           autoClose: 1500,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: true,
-  //           draggable: true,
-  //           progress: undefined,
-  //           theme: "dark",
-  //         });
-  //         setDepositingFlag(true);
-  //       }
-  //     } else {
-  //       toast.warn(`No wallet Connected!`, {
-  //         position: "bottom-left",
-  //         autoClose: 1500,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "dark",
-  //       });
-  //       setDepositingFlag(true);
-  //     }
-  //   },
-  //   [wallet?.adapter.publicKey]
-  // );
+  const getContributeInfo = async (conn: Connection, address: PublicKey) => {
+    const wallet = new MyWallet(Keypair.generate());
+    const provider = new anchor.AnchorProvider(
+      conn,
+      wallet as any,
+      confirmOption
+    );
+    const program = new anchor.Program(program_idl as unknown as anchor.Idl, programId, provider);
+    let data = await program.account.contributeInfo.fetch(address)
+    return data;
+  }
+
+  // const getAllInfo = async () => {
+  //   await getPoolStateData();
+  //   await getUserInfo();
+  // }
+
+  const getUserContributeInfo = async () => {
+    try {
+      if(wallet?.adapter.publicKey){
+        const [contributeState, bump] = await getContributeInfoAccount(wallet?.adapter.publicKey, poolAddress);
+        if ((await conn.getAccountInfo(contributeState)) != null) {
+          const contributeInfoData = await getContributeInfo(conn, contributeState);
+          console.log("contributeinfo", contributeInfoData);
+          console.log({
+            pool: contributeInfoData.pool.toBase58(),
+            contributer: contributeInfoData.contributer.toBase58(),
+            contributeStart: contributeInfoData.contributeStart.toNumber(),
+            contributeLast: contributeInfoData.contributeLast.toNumber(),
+            amount: contributeInfoData.amount.toNumber(),
+          })
+          setContributeInfo({
+            pool: contributeInfoData.pool.toBase58(),
+            contributer: contributeInfoData.contributer.toBase58(),
+            contributeStart: contributeInfoData.contributeStart.toNumber(),
+            contributeLast: contributeInfoData.contributeLast.toNumber(),
+            amount: contributeInfoData.amount.toNumber(),
+          })
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }    
+  }
+
+  const depositSol = async (amount: number) => {
+    try {
+      if (wallet?.adapter.publicKey) {
+        console.log("deposit");
+        const provider = new anchor.AnchorProvider(
+          conn,
+          wallet as any,
+          confirmOption
+        );
+        const program = new anchor.Program(program_idl as unknown as anchor.Idl, programId, provider);
+        // let transaction = new Transaction();
+
+        let instructionsMatrixIndex = 0;
+
+        const signersMatrix: any[] = [];
+        const instructionsMatrix: any[] = [];
+
+        signersMatrix.push([]);
+        instructionsMatrix.push([]);
+
+        // const rand = Keypair.generate().publicKey;
+
+        const [contributeState, bump] = await getContributeInfoAccount(wallet?.adapter.publicKey, poolAddress);
+
+        if ((await conn.getAccountInfo(contributeState)) == null) {
+          // console.log("account Address", contributeState.toBase58())
+
+          instructionsMatrix[instructionsMatrixIndex].push(
+            program.instruction.initContributeInfo(new anchor.BN(bump), {
+              accounts: {
+                owner: wallet?.adapter.publicKey,
+                pool: poolAddress,
+                data: contributeState,
+                clock : SYSVAR_CLOCK_PUBKEY,
+                systemProgram: SystemProgram.programId,
+              },
+            })
+          );
+        }
+        // } else {
+        //   const contributeInfoData = await getContributeInfo(conn, contributeState);
+        //   setContributeInfo({
+        //     pool: contributeInfoData.pool.toBase58(),
+        //     contributer: contributeInfoData.contributer.toBase58(),
+        //     contributeStart: contributeInfoData.contributeStart.toNumber(),
+        //     contributeLast: contributeInfoData.contributeLast.toNumber(),
+        //     amount: contributeInfoData.amount.toNumber(),
+        //   })
+        // }
+
+        instructionsMatrix[instructionsMatrixIndex].push(
+          program.instruction.depositSol(
+            new anchor.BN(Number(amount * LAMPORTS_PER_SOL)),
+            {
+              accounts: {
+                owner: wallet?.adapter.publicKey,
+                pool: poolAddress,
+                contributeInfo: contributeState,
+                clock : SYSVAR_CLOCK_PUBKEY,
+                systemProgram : SystemProgram.programId
+              },
+            }
+          )
+        );
+
+        // console.log("instruction", instructionsMatrix);
+        // await sendTransaction(transaction, conn);
+        const txns = (await sendTransactions(conn, wallet, instructionsMatrix, signersMatrix,)).txs.map(t => t.txid);
+
+        const sendTxId = txns[0];
+
+        // console.log(txns);
+
+        let status: any = { err: true };
+        status = await awaitTransactionSignatureConfirmation(
+          sendTxId,
+          txTimeoutInMilliseconds,
+          conn,
+          true,
+        );
+
+        // console.log("status", status);
+        // await getAllInfo();
+        console.log(poolState);
+        setPoolState({
+          ...poolState,
+          raised: poolState.raised + amount
+        })
+
+        console.log("deposit success");
+        return {
+          status: true,
+          error: null,
+        }
+      }
+    } catch (err) {
+      // setDepositingFlag(true);
+      console.log(err);
+      return {
+        state: false,
+        error: err
+      }
+    }
+  }
 
   return (
     <PersonalInfoContext.Provider
@@ -283,7 +345,8 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
         poolState,
         contributeInfo,
         depositSol,
-        getPoolStateData
+        getPoolStateData,
+        getUserInfo
       }}
     >
       {children}

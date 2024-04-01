@@ -17,15 +17,16 @@ import { PersonalInfoContext } from "../../web3/PersonalInfo";
 // import WalletConnect from "../Wallet/connect";
 
 export default function ProgressCard(): JSX.Element {
-  const { poolState } = useContext(PersonalInfoContext);
+  const { poolState, getUserInfo } = useContext(PersonalInfoContext);
   const { connected } = useWallet();
   // const { connected, select, wallets, wallet, publicKey, disconnect } = useWallet();
   // const { setVisible } = useWalletModal();
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if(connected) {
+      await getUserInfo();
       dialogRef.current?.showModal();
     } else {
       // setVisible(true);

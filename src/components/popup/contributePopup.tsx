@@ -1,9 +1,11 @@
-import { forwardRef, useRef, useContext } from "react";
+import { forwardRef, useRef, useContext, useState, useEffect } from "react";
 import classes from "./contributePopup.module.scss";
 import ThankyouPopup from "./thankyouPopup";
 import balLogo from "../../assets/bal-logo.png";
 import paperImage from "../../assets/paper-image.png";
 import crossImage from "../../assets/cross.svg";
+
+import { toast } from "react-toastify";
 
 import { PersonalInfoContext } from "../../web3/PersonalInfo";
 
@@ -12,9 +14,43 @@ const ContributePopup = forwardRef<HTMLDialogElement>(function ContributePopup(
   ref
 ) {
   const thankyouPopupRef = useRef<HTMLDialogElement>(null);
-  const { userBalance } = useContext(PersonalInfoContext);
+  const { userBalance, depositSol, poolState } = useContext(PersonalInfoContext);
+  const [contributeSol, setContributeSol] = useState<number>(poolState.minsol);
 
   // console.log(userBalance);
+  const depositButtonClick = async () => {
+    // console.log("contribute sol", contributeSol);
+    if(!contributeSol) {
+      // console.log("false");
+      toast.warn(`Please input contribute amount!`, {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    const status = await depositSol(contributeSol);
+    if(status.status == true) {
+      thankyouPopupRef.current?.showModal();
+    } else {
+      console.log(false);
+    }
+    console.log("deposit status", status);
+    // thankyouPopupRef.current?.showModal()
+  }
+
+  const onChangeContribute = (e: any) => {
+    setContributeSol(e.target.value);
+    // console.log(poolState);
+  }
+
+  useEffect(() => {
+    setContributeSol(poolState.minsol);
+  }, [poolState])
 
   return (
     <>
@@ -49,15 +85,21 @@ const ContributePopup = forwardRef<HTMLDialogElement>(function ContributePopup(
             <p>CONTRIBUTION BOX</p>
           </div>
           <input
-            type="text"
+            type="number"
             name="sol"
             id="sol"
-            className={classes.contribute__input}
+            min={poolState.minsol}
+            max={poolState.maxsol}
+            step={0.01}
+            placeholder={poolState.minsol + " ~ " + poolState.maxsol + " sol"}
+            value={contributeSol}
+            onChange={(e) => {onChangeContribute(e)}}
+            className={classes.contribute__input + ' no-spin'}
           />
         </div>
         <button
           className={`${classes.contribute__button} button`}
-          onClick={() => thankyouPopupRef.current?.showModal()}
+          onClick={depositButtonClick}
         >
           CONTRIBUTE
         </button>
