@@ -26,7 +26,7 @@ import MyWallet from "./MyWallet";
 import program_idl from "./presale.json";
 
 const REACT_APP_SOLANA_HOST: any = import.meta.env.VITE_APP_SOLANA_RPC_HOST;
-console.log(REACT_APP_SOLANA_HOST);
+// console.log(REACT_APP_SOLANA_HOST);
 let conn = new Connection(REACT_APP_SOLANA_HOST);
 const programId = new PublicKey(import.meta.env.VITE_APP_PROGRAM_KEY as any);
 let poolAddress = new PublicKey(import.meta.env.VITE_APP_POOL_ADDRESS as any);
@@ -59,6 +59,7 @@ export interface contributeInfoInterface {
 }
 
 export interface PersonalInfoInterface {
+  userBalance: number,
   poolState: poolStateInterface,
   contributeInfo: contributeInfoInterface,
   depositSol: Function;
@@ -66,6 +67,7 @@ export interface PersonalInfoInterface {
 }
 
 export const PersonalInfoContext = React.createContext<PersonalInfoInterface>({
+  userBalance: 0,
   poolState: {
     owner: "",
     withdrawer: "",
@@ -95,6 +97,7 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
 }) => {
   // const { connection } = useConnection();
   const { connected, sendTransaction, wallet, publicKey } = useWallet();
+  const [userBalance, setUserBalance] = useState<number>(0);
   const [poolState, setPoolState] = useState<poolStateInterface>({
     owner: "",
     withdrawer: "",
@@ -131,6 +134,20 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
   useEffect(() => {
     getPoolStateData();
   }, [])
+
+  useEffect(() => {
+    if(wallet?.adapter.publicKey) {
+      getUserBalance(wallet.adapter.publicKey);
+    } else {
+      setUserBalance(0);
+    }
+  }, [wallet?.adapter.publicKey])
+
+  const getUserBalance = async (userkey: PublicKey) => {
+    let balance = await conn.getBalance(userkey);
+    // console.log("user balance", balance / LAMPORTS_PER_SOL);
+    setUserBalance(balance / LAMPORTS_PER_SOL);
+  }
 
   const getPoolStateData = async () => {
     try {
@@ -262,6 +279,7 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
   return (
     <PersonalInfoContext.Provider
       value={{
+        userBalance,
         poolState,
         contributeInfo,
         depositSol,

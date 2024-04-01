@@ -1,15 +1,20 @@
-import { forwardRef, useRef } from "react";
+import { forwardRef, useRef, useContext } from "react";
 import classes from "./contributePopup.module.scss";
 import ThankyouPopup from "./thankyouPopup";
 import balLogo from "../../assets/bal-logo.png";
 import paperImage from "../../assets/paper-image.png";
 import crossImage from "../../assets/cross.svg";
 
+import { PersonalInfoContext } from "../../web3/PersonalInfo";
+
 const ContributePopup = forwardRef<HTMLDialogElement>(function ContributePopup(
   props,
   ref
 ) {
   const thankyouPopupRef = useRef<HTMLDialogElement>(null);
+  const { userBalance } = useContext(PersonalInfoContext);
+
+  // console.log(userBalance);
 
   return (
     <>
@@ -26,7 +31,7 @@ const ContributePopup = forwardRef<HTMLDialogElement>(function ContributePopup(
           </div>
           <div className={classes.balance}>
             <p>WALLET BALANCE</p>
-            <p className={classes.balance__amount}>800 SOL</p>
+            <p className={classes.balance__amount}>{userBalance} SOL</p>
             <img
               className={classes.balance__paper__image}
               src={paperImage}
