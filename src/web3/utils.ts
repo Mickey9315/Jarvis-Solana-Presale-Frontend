@@ -13,6 +13,9 @@ import {
   // PublicKey
 } from '@solana/web3.js';
 
+import * as buffer from "buffer";
+window.Buffer = buffer.Buffer;
+
 import * as anchor from "@project-serum/anchor";
 
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';

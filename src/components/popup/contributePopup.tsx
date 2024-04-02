@@ -8,6 +8,7 @@ import crossImage from "../../assets/cross.svg";
 import { toast } from "react-toastify";
 
 import { PersonalInfoContext } from "../../web3/PersonalInfo";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 // import { stat } from "fs";
 // import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
@@ -37,7 +38,8 @@ const ContributePopup = forwardRef<HTMLDialogElement, ContributePopupProps>(func
       flag = false;
     }
 
-    if(contributeInfo.amount + contributeSol > poolState.maxsol) {
+    // console.log(contributeInfo);
+    if(contributeInfo.amount / LAMPORTS_PER_SOL + contributeSol > poolState.maxsol) {
       msg_str = `Overflow max contribute amount!`;
       flag = false;
     }

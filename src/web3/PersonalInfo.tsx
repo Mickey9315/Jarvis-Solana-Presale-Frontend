@@ -341,6 +341,7 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
       // if(!error) {
 
       // }
+      console.log(err);
       return {
         state: false,
         error: getErrorMessage(err.InstructionError[1].Custom)
