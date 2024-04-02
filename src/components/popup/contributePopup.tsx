@@ -12,6 +12,8 @@ import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 // import { stat } from "fs";
 // import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
+let contributeAmount = 0;
+
 export interface ContributePopupProps {
   // ref?: RefObject<HTMLDialogElement>,
   closeContributePopupChild: () => void,
@@ -24,15 +26,19 @@ const ContributePopup = forwardRef<HTMLDialogElement, ContributePopupProps>(func
   
   const thankyouPopupRef = useRef<HTMLDialogElement>(null);
   const { userBalance, depositSol, contributeInfo, poolState } = useContext(PersonalInfoContext);
-  const [contributeSol, setContributeSol] = useState<number>(poolState.minsol);
+  const [contributeSol, setContributeSol] = useState<string>(poolState.minsol.toString());
 
+  const getContributeSol = () => {
+    if( contributeSol.length == 0 ) return 0;
+    return Number(parseFloat(contributeSol).toFixed(2));
+  }
   const validateInput = (contributeSol: number) => {
     let msg_str = "";
     let flag = true;
-    if(!contributeSol) {
-      msg_str = `Please input contribute amount!`;
-      flag = false;
-    }
+    // if(!contributeSol) {
+    //   msg_str = `Please input contribute amount!`;
+    //   flag = false;
+    // }
     if(contributeSol + poolState.raised > poolState.hardcap) {
       msg_str = `Cannot overflow hardcap!`;
       flag = false;
@@ -76,11 +82,13 @@ const ContributePopup = forwardRef<HTMLDialogElement, ContributePopupProps>(func
     // console.log("contribute sol", contributeSol);
     let err_str = "";
 
-    if(!validateInput(Number(contributeSol))) {
+    if(!validateInput(getContributeSol())) {
       return;
     }
+
+    contributeAmount = getContributeSol();
     
-    const status = await depositSol(contributeSol);
+    const status = await depositSol(getContributeSol());
     // console.log(status);
     if(!status.error) {
       thankyouPopupRef.current?.showModal();
@@ -104,23 +112,18 @@ const ContributePopup = forwardRef<HTMLDialogElement, ContributePopupProps>(func
     }
   }
 
-  const onChangeContribute = (e: any) => {
-    setContributeSol(e.target.value);
-    // console.log(poolState);
-  }
-
   const closeThankyouDlg = () => {
     thankyouPopupRef.current?.close();
     props.closeContributePopupChild();
   }
 
   useEffect(() => {
-    setContributeSol(poolState.minsol);
+    setContributeSol(poolState.minsol.toString());
   }, [poolState])
 
   return (
     <>
-      <ThankyouPopup ref={thankyouPopupRef} closeThankyouPopupChild={closeThankyouDlg} purchase_amount={Number(contributeSol)}/>
+      <ThankyouPopup ref={thankyouPopupRef} closeThankyouPopupChild={closeThankyouDlg} purchase_amount={contributeAmount}/>
       <dialog className={classes.popup} ref={ref}>
         <div className={classes.balance__wrapper}>
           <div className={classes.balance__heading__wrapper}>
@@ -158,8 +161,8 @@ const ContributePopup = forwardRef<HTMLDialogElement, ContributePopupProps>(func
             max={poolState.maxsol}
             step={0.01}
             placeholder={poolState.minsol + " ~ " + poolState.maxsol + " sol"}
-            value={contributeSol}
-            onChange={(e) => {onChangeContribute(e)}}
+            value={getContributeSol()}
+            onChange={(e) => {setContributeSol(e.target.value)}}
             className={classes.contribute__input + ' no-spin'}
           />
         </div>

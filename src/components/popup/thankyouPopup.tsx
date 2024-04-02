@@ -23,6 +23,7 @@ const ThankyouPopup = forwardRef<HTMLDialogElement, ThankyouPopupProps>(function
     props.closeThankyouPopupChild();
   }
 
+  console.log(props.purchase_amount)
   return (
     <dialog id="dialog2" ref={ref} className={classes.thank__you__popup}>
       <img className={classes.thankyou__logo} src={logo} alt="judgement logo" />
