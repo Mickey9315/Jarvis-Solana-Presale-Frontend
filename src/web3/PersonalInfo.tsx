@@ -323,7 +323,7 @@ export const PersonalInfoContextProvider: React.FC<PropsWithChildren> = ({
         // console.log(poolState);
         setPoolState({
           ...poolState,
-          raised: poolState.raised + amount
+          raised: Number(poolState.raised) + Number(amount)
         })
 
         // console.log("deposit success");

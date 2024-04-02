@@ -5,8 +5,11 @@ import logo from "../../assets/logo.png";
 
 // import { PersonalInfoContext } from "../../web3/PersonalInfo";
 
+const judge_rate = import.meta.env.VITE_APP_JUGE_RATE;
+
 export interface ThankyouPopupProps {
   // ref?: RefObject<HTMLDialogElement>,
+  purchase_amount: number,
   closeThankyouPopupChild: () => void,
 }
 
@@ -24,7 +27,7 @@ const ThankyouPopup = forwardRef<HTMLDialogElement, ThankyouPopupProps>(function
     <dialog id="dialog2" ref={ref} className={classes.thank__you__popup}>
       <img className={classes.thankyou__logo} src={logo} alt="judgement logo" />
       <p className={classes.thankyou__text}>
-        You have purchased 100,000 $JUDGE
+        You have purchased {Number(judge_rate) * Number(props.purchase_amount)} $JUDGE
       </p>
       <div className={classes.thankyou__divider}></div>
       <p className={classes.thankyou__text__white}>

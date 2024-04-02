@@ -120,7 +120,7 @@ const ContributePopup = forwardRef<HTMLDialogElement, ContributePopupProps>(func
 
   return (
     <>
-      <ThankyouPopup ref={thankyouPopupRef} closeThankyouPopupChild={closeThankyouDlg} />
+      <ThankyouPopup ref={thankyouPopupRef} closeThankyouPopupChild={closeThankyouDlg} purchase_amount={Number(contributeSol)}/>
       <dialog className={classes.popup} ref={ref}>
         <div className={classes.balance__wrapper}>
           <div className={classes.balance__heading__wrapper}>
