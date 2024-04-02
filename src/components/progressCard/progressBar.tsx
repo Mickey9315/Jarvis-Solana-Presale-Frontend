@@ -17,7 +17,10 @@ export default function ProgressBar() {
       </div>
       <div className={classes.progress__bar__container}>
         <div className={classes.progress__bar}>
-          <div className={classes.progress__bar__inner}></div>
+          <div
+            className={classes.progress__bar__inner}
+            style={{ width: `${getProgressPercent()}%` }}
+          ></div>
         </div>
       </div>
     </div>
